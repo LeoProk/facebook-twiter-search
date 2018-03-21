@@ -1,0 +1,6 @@
+framework module Pods_facebook_twiter_searchUITests {
+  umbrella header "Pods-facebook-twiter-searchUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
