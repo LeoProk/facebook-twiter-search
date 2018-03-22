@@ -7,12 +7,13 @@
 //
 
 import UIKit
+import TwitterKit
 
-class ViewController: UIViewController {
+class ViewController: UISearchController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -21,5 +22,21 @@ class ViewController: UIViewController {
     }
 
 
+}
+//extension for auto search complete
+extension ViewController : UISearchResultsUpdating
+{
+    func updateSearchResults(for searchController: UISearchController) {
+        let client = TWTRAPIClient()
+        client.loadTweet(withID: searchBar.text!) { (tweet, error) in
+            if let t = tweet {
+                
+            } else {
+                print("Failed to load Tweet: \(error?.localizedDescription)")
+            }
+        }
+    }
+    
+    
 }
 
