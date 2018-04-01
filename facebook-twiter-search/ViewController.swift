@@ -1,9 +1,6 @@
 //
-//  ViewController.swift
-//  facebook-twiter-search
-//
-//  Created by user on 3/21/18.
-//  Copyright © 2018 user. All rights reserved.
+//this class get search result in search bar using json request for twitter
+// and facebook in UISearchController and show them in search display conntrol
 //
 
 import UIKit
