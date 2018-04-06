@@ -6,7 +6,8 @@
 import UIKit
 import TwitterKit
 
-class ViewController: UISearchController {
+class ViewController: UIViewController {
+    @IBOutlet var searchBar: UISearchBar!
     //twitter api
     let client = TWTRAPIClient()
     //twitter rest url
@@ -15,6 +16,24 @@ class ViewController: UISearchController {
     var clientError : NSError?
     
     override func viewDidLoad() {
+        
+        let params = ["id":"hey"]
+        let request = client.urlRequest(withMethod: "GET", urlString: statusesShowEndpoint, parameters: params, error: &clientError)
+        
+        client.sendTwitterRequest(request) { (response, data, connectionError) -> Void in
+            if connectionError != nil {
+                print("Error: \(connectionError)")
+            }
+            
+            do {
+                let json = try JSONSerialization.jsonObject(with: data!, options: [])
+                print("json: \(json)")
+                print("yay")
+            } catch let jsonError as NSError {
+                print("json error: \(jsonError.localizedDescription)")
+                print("yay2")
+            }
+        }
         super.viewDidLoad()
         
     }
@@ -42,8 +61,10 @@ extension ViewController : UISearchResultsUpdating
             do {
                 let json = try JSONSerialization.jsonObject(with: data!, options: [])
                 print("json: \(json)")
+                print("yay")
             } catch let jsonError as NSError {
                 print("json error: \(jsonError.localizedDescription)")
+                  print("yay2")
             }
         }
     }
