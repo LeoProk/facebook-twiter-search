@@ -6,7 +6,7 @@
 import UIKit
 import TwitterKit
 
-class ViewController: UIViewController {
+class ViewController: TWTRTimelineViewController {
     @IBOutlet var searchBar: UISearchBar!
     //twitter api
     let client = TWTRAPIClient()
@@ -16,24 +16,7 @@ class ViewController: UIViewController {
     var clientError : NSError?
     
     override func viewDidLoad() {
-        
-        let params = ["id":"hey"]
-        let request = client.urlRequest(withMethod: "GET", urlString: statusesShowEndpoint, parameters: params, error: &clientError)
-        
-        client.sendTwitterRequest(request) { (response, data, connectionError) -> Void in
-            if connectionError != nil {
-                print("Error: \(connectionError)")
-            }
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: [])
-                print("json: \(json)")
-                print("yay")
-            } catch let jsonError as NSError {
-                print("json error: \(jsonError.localizedDescription)")
-                print("yay2")
-            }
-        }
+        self.dataSource =  TWTRSearchTimelineDataSource(searchQuery: "#hey", apiClient: TWTRAPIClient())
         super.viewDidLoad()
         
     }
