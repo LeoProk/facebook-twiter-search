@@ -7,17 +7,16 @@ import UIKit
 import TwitterKit
 
 class ViewController: TWTRTimelineViewController {
-    @IBOutlet var searchBar: UISearchBar!
-    //twitter api
-    let client = TWTRAPIClient()
-    //twitter rest url
-    let statusesShowEndpoint = "https://api.twitter.com/1.1/statuses/show.json"
-    //twitter error handling
-    var clientError : NSError?
+    //search bar
+    @IBOutlet weak var twittSearch: UISearchBar!
+    
     
     override func viewDidLoad() {
-        self.dataSource =  TWTRSearchTimelineDataSource(searchQuery: "#hey", apiClient: TWTRAPIClient())
         super.viewDidLoad()
+        twittSearch.delegate = self
+        self.twittSearch.scopeButtonTitles = ["Twitter","Facebook"]
+        //get twitts with hey search query and display them in table view
+        self.dataSource =  TWTRSearchTimelineDataSource(searchQuery: "hey", apiClient: TWTRAPIClient())
         
     }
 
@@ -29,29 +28,23 @@ class ViewController: TWTRTimelineViewController {
 
 }
 //extension for auto search complete
-extension ViewController : UISearchResultsUpdating
-{
-    func updateSearchResults(for searchController: UISearchController) {
-        //sets the id to current search bar value
-        let params = ["id":searchBar.text]
-        let request = client.urlRequest(withMethod: "GET", urlString: statusesShowEndpoint, parameters: params, error: &clientError)
-        
-        client.sendTwitterRequest(request) { (response, data, connectionError) -> Void in
-            if connectionError != nil {
-                print("Error: \(connectionError)")
-            }
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!, options: [])
-                print("json: \(json)")
-                print("yay")
-            } catch let jsonError as NSError {
-                print("json error: \(jsonError.localizedDescription)")
-                  print("yay2")
-            }
-        }
+extension ViewController : UISearchBarDelegate{
+    
+    //called at the seachbat touch
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        twittSearch.resignFirstResponder()
     }
     
+    //called when use start to type
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+    }
+    
+    //called when user done typing
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        //get twitts with hey search query and display them in table view
+        self.dataSource =  TWTRSearchTimelineDataSource(searchQuery: twittSearch.text ?? "", apiClient: TWTRAPIClient())
+    }
+   
     
 }
 
