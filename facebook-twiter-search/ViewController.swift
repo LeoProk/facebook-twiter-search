@@ -41,8 +41,15 @@ extension ViewController : UISearchBarDelegate{
     
     //called when user done typing
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
-        //get twitts with hey search query and display them in table view
-        self.dataSource =  TWTRSearchTimelineDataSource(searchQuery: twittSearch.text ?? "", apiClient: TWTRAPIClient())
+        //check what current scopbar index is if it's twitter search twitter
+        if twittSearch.selectedScopeButtonIndex == 0
+        {
+            //get twitts with hey search query and display them in table view
+            self.dataSource =  TWTRSearchTimelineDataSource(searchQuery: twittSearch.text ?? "", apiClient: TWTRAPIClient())
+        }else {
+            
+            
+        }
     }
    
     
