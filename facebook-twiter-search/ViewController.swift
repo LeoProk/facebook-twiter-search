@@ -14,6 +14,7 @@ class ViewController: TWTRTimelineViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         twittSearch.delegate = self
+        //set scope buttons
         self.twittSearch.scopeButtonTitles = ["Twitter","Facebook"]
         //get twitts with hey search query and display them in table view
         self.dataSource =  TWTRSearchTimelineDataSource(searchQuery: "hey", apiClient: TWTRAPIClient())
